@@ -1,0 +1,15 @@
+{
+  "name": "utf8proc",
+  "repo": "JuliaStrings/utf8proc",
+  "version": "v2.4.0",
+  "license": "MIT",
+  "description": "a clean C library for processing UTF-8 Unicode data",
+  "keywords": [
+    "c", "utf8"
+  ],
+  "src": [
+    "utf8proc.c",
+    "utf8proc.h",
+    "utf8proc_data.c"
+  ]
+}

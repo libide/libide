@@ -1,47 +1,31 @@
-CFLAGS	=	-Wall -pedantic
-DIRBIN	=	bin
+CFLAGS = \
+    -Wall \
+    -Wextra \
+    -pedantic \
+    -Ideps
 
-TREE_SITTER_DIR		=	deps/tree-sitter/lib
-TREE_SITTER_SRC		=	\
-	$(TREE_SITTER_DIR)/src/lib.c \
-	$(TREE_SITTER_DIR)/utf8proc/utf8proc.c
-TREE_SITTER_OBJ		=	$(TREE_SITTER_SRC:.c=.o)
-TREE_SITTER_LIB		=	$(DIRBIN)/libtree-sitter.a
-TREE_SITTER_CFLAGS	=	\
-	-c \
-	-I$(TREE_SITTER_DIR)/include \
-	-I$(TREE_SITTER_DIR)/utf8proc
+DIR_BIN = bin
+DIR_DEP = deps
+SRC_DEP = $(wildcard $(DIR_DEP)/*/*.c)
+OBJ_DEP = $(SRC_DEP:.c=.o)
+DIR_POC = src
+SRC_POC = $(wildcard $(DIR_POC)/*.c)
+OBJ_POC = $(SRC_POC:.c=.o)
+APP_POC = $(DIR_BIN)/poc
 
-TREE_SITTER_C_DIR		=	deps/tree-sitter-c/src
-TREE_SITTER_C_SRC		=	$(TREE_SITTER_C_DIR)/parser.c
-TREE_SITTER_C_OBJ		=	$(TREE_SITTER_C_SRC:.c=.o)
-TREE_SITTER_C_LIB		=	$(DIRBIN)/libtree-sitter-c.a
-TREE_SITTER_C_CFLAGS	=	\
-	-c \
-	-I$(TREE_SITTER_C_DIR)
+default: $(DIR_BIN) $(APP_POC)
+	@echo $(SRC_DEP)
+	@echo $(OBJ_DEP)
 
-
-all: $(DIRBIN) $(TREE_SITTER_LIB) $(TREE_SITTER_C_LIB)
-
-$(DIRBIN):
+$(DIR_BIN):
 	mkdir -p $@
 
-$(TREE_SITTER_LIB): $(TREE_SITTER_OBJ)
-	$(AR) ru $@ $^
-
-$(TREE_SITTER_OBJ): CFLAGS = $(TREE_SITTER_CFLAGS)
-
-
-$(TREE_SITTER_C_LIB): $(TREE_SITTER_C_OBJ)
-	$(AR) ru $@ $^
-
-$(TREE_SITTER_C_LIB): CFLAGS = $(TREE_SITTER_C_CFLAGS)
+$(APP_POC): $(OBJ_DEP) $(OBJ_POC)
+	$(CC) $(LDFLAGS) -o $@ $(OBJ_DEP) $(OBJ_POC)
 
 %.o: %.c
 	$(CC) $< -c -o $@ $(CFLAGS)
 
 clean:
-	$(foreach c, $(TREE_SITTER_OBJ), rm -f $(c))
-	$(foreach c, $(TREE_SITTER_C_OBJ), rm -f $(c))
-	@rm -f $(TREE_SITTER_LIB)
-	@rm -f $(TREE_SITTER_C_LIB)
+	$(foreach c, $(OBJ_DEP), rm -f $(c))
+	$(foreach c, $(OBJ_POC), rm -f $(c))

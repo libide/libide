@@ -4,3 +4,15 @@
 [submodule "deps/tree-sitter-c"]
 	path = deps/tree-sitter-c
 	url = https://github.com/tree-sitter/tree-sitter-c.git
+[submodule "deps/defer"]
+	path = deps/defer
+	url = https://github.com/cstdx/defer.git
+[submodule "deps/sophia"]
+	path = deps/sophia
+	url = https://github.com/pmwkaa/sophia.git
+[submodule "deps/sqlite"]
+	path = deps/sqlite
+	url = https://github.com/mackyle/sqlite.git
+[submodule "deps/sqlightning"]
+	path = deps/sqlightning
+	url = https://github.com/LMDB/sqlightning.git

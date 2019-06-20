@@ -14,6 +14,16 @@
 8. Linting
 9. Embedded mode (like razor templates)
 
+
+### Symbols table
+
+A table representing symbols should be itroduced. The follwing operations
+should be supported (preferrable time is O(1)):
+
+1. Get symbols of certain type.
+2. Get symbols of any type.
+3. Check whether a symbol exitsts.
+
 ### C API
 
 *NOTE:* seems like a file abstraction is required.
@@ -21,6 +31,13 @@
 *TODO:* think about concurrent parsing and async IO.
 
 *TODO:* figure out error handling approach.
+
+TSNode stores only positions in the source file not the text itself so we need
+a function like
+
+```c
+const char* getstr(void* file, TSPoint from, TSPoint to);
+```
 
 ```c
 /**
@@ -43,4 +60,43 @@ typedef struct ide_file ide_file_t;
 
 ```
 
+Symbols table
+
+```c
+// Represents a global symbols table for a project.
+typedef struct {
+    // ???
+} ide_index_t;
+
+typedef struct {
+    const char*   mask; // file mask
+    const char*   sym;  // symbola name;
+    ide_symtype_t type; // symbol type;
+} ide_search_t;
+
+ide_index_find()
+
+```
+
+
 ## Project structure
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
